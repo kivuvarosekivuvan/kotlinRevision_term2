@@ -19,7 +19,10 @@ fun main(args: Array<String>) {
     moreDetails.withdraw(4356.00)
     moreDetails.details()
 
-    longestString(arrayOf("Ityaku", "Clever", "Reddiet", "MumoMjera"))
+    longestString(arrayOf("Ityaku", "Clever", "Reddiet", "MumoMjera")) //QN.5
+
+    var results=combine(arrayOf("pilau", "juice", "mboga"))   //QN.6
+    println(results)
 }
 //1.Write and invoke one function that takes in a random string and returns the
 //following values: first character, last character, length of the string and
@@ -57,7 +60,7 @@ fun isValidPassword(password:String):Boolean{
     return hasNums
 }
 
-//Create a class CurrentAccount with the following attributes: account number,
+//3.Create a class CurrentAccount with the following attributes: account number,
 //account name, balance. It has the following functions:
 //a. deposit(amount: Double) - Increments the balance by the amount
 //deposited
@@ -66,23 +69,23 @@ fun isValidPassword(password:String):Boolean{
 //c. details() - Prints out the account number and balance and name in
 //this format: “Account number x with balance y is operated by z” (6
 
-data class CurrentAccount(var accountName:String, var accountNumber:String, var balance:Double ){
-    open  fun deposit(amount: Double):Double{
+open  class CurrentAccount(var accountName:String, var accountNumber:String, var balance:Double ){
+      fun deposit(amount: Double):Double{
         balance+=amount
         return balance
 
     }
 
-    fun withdraw(amount: Double):Double{
+    open fun withdraw(amount: Double):Double{
         balance-=amount
         return balance
     }
-    open  fun details(){
+      fun details(){
         println("Account number $accountNumber with balance $balance is operated by $accountName")
     }
 }
 
-//Create another class SavingsAccount. It has the same functions and
+//4.Create another class SavingsAccount. It has the same functions and
 //attributes as the current account except for one attribute, withdrawals: Int.
 //Withdrawals is a counter variable that is used to keep track of how many
 //withdrawals have been made from the account in a year. The only other
@@ -91,31 +94,35 @@ data class CurrentAccount(var accountName:String, var accountNumber:String, var 
 //from the account. It also increments the withdrawals attribute after a
 //successful withdrawal (6pts)
 
-class savingAccount(var accountName:String, var accountNumber:String, var balance:Double ,val withdrawals:Int = 0 ){
-     fun deposit(amount: Double):Double {
-         balance += amount
-         return balance
-     }
-     fun withdraw(amount: Double){
-         if(withdrawals<4){
-             balance -=amount
-         }
-         else{
-             println("Sorry, you have exceeded the maximum number of withdrawals")
-         }
+class savingAccount( accountName:String,  accountNumber:String,  balance:Double ,var withdrawals:Int = 0 ):CurrentAccount(accountName,accountNumber,balance) {
 
-     }
-    fun details(){
-        println("Account number $accountNumber owned by $accountName with balance $balance is open")
+    override fun withdraw(amount: Double): Double {
+        balance -= amount
+        if (withdrawals < 4) {
+            super.withdraw(amount)
+            withdrawals++
+        } else {
+            println("Sorry, you have exceeded the maximum number of withdrawals")
+        }
+
+
+        return balance
+
     }
-}
 
-
-//Write a function that accepts an array of strings and returns the longest string in the array.
-fun longestString(names:Array<String>){
-    val longW=names.maxByOrNull { it.length } //lamda {it.length} defines the lentgth of each word
-    println(longW)
 }
+    //5.Write a function that accepts an array of strings and returns the longest string in the array.
+    fun longestString(names: Array<String>) {
+        val longW = names.maxByOrNull { it.length } //lamda {it.length} defines the lentgth of each word
+        println(longW)
+    }
+
+    //6.Write a Kotlin program  that takes in an array of strings, joins them all into
+//one string and returns it.
+    fun combine(foods: Array<String>): String {
+        return foods.joinToString("")
+    }
+
 
 
 
